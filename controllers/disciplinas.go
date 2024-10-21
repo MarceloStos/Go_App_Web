@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"Aplicacao_Web/models"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"

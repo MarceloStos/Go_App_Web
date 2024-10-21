@@ -90,6 +90,7 @@ func EditarAluno(idAluno string) Aluno {
 		AlunoParaAtualizar.Id = id
 		AlunoParaAtualizar.Nome = nome
 		AlunoParaAtualizar.Email = email
+
 	}
 	defer db.Close()
 	return AlunoParaAtualizar
@@ -102,6 +103,7 @@ func AtualizarAluno(id int, nome, email string) {
 	if err != nil {
 		panic(err.Error())
 	}
-	AtualizaAluno.Exec(nome, email)
+
+	AtualizaAluno.Exec(id, nome, email)
 	defer db.Close()
 }

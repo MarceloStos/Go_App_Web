@@ -13,7 +13,7 @@ type Matricula struct {
 func BuscaMatricula() []Matricula {
 	db := db.ConectaComBancoDeDados()
 
-	selectTodosAsMatriculas, err := db.Query("select * from matricula order by data_matricula asc")
+	selectTodosAsMatriculas, err := db.Query("select * from matricula")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -41,7 +41,7 @@ func BuscaMatricula() []Matricula {
 	return matriculas
 }
 
-func CriarMatricula(idAluno, idDisciplina int) {
+func CriarMatricula(idAluno, idDisciplina int, dataMatricula string) {
 	db := db.ConectaComBancoDeDados()
 
 	insereDadosNoBanco, err := db.Prepare("insert into matricula(aluno_id, disciplina_id, data_matricula) values($1, $2, $3)")
@@ -50,26 +50,26 @@ func CriarMatricula(idAluno, idDisciplina int) {
 		panic(err.Error())
 	}
 
-	insereDadosNoBanco.Exec(idAluno, idDisciplina)
+	insereDadosNoBanco.Exec(idAluno, idDisciplina, dataMatricula)
 	defer db.Close()
 }
 
-func DeletarMatricula(idMatricula string) {
+func DeletarMatricula(idAluno, idDisciplina, dataMatricula string) {
 	db := db.ConectaComBancoDeDados()
 
-	deletarMatricula, err := db.Prepare("delete from matricula where id = $1")
+	deletarMatricula, err := db.Prepare("DELETE FROM matricula WHERE aluno_id = $1 AND disciplina_id = $2 AND data_matricula = $3")
 	if err != nil {
 		panic(err.Error())
 	}
 
-	deletarMatricula.Exec(idMatricula)
+	deletarMatricula.Exec(idAluno, idDisciplina, dataMatricula)
 	defer db.Close()
 }
 
-func EditarMatricula(idMatricula string) Matricula {
+func EditarMatricula(idAluno, idDisciplina, dataMatricula string) Matricula {
 	db := db.ConectaComBancoDeDados()
 
-	MatriculaAlvo, err := db.Query("select * from matricula where id=$1", idMatricula)
+	MatriculaAlvo, err := db.Query("select * from matricula WHERE aluno_id = $1 AND disciplina_id = $2 AND data_matricula = $3", idAluno, idDisciplina, dataMatricula)
 
 	if err != nil {
 		panic(err.Error())
@@ -78,10 +78,10 @@ func EditarMatricula(idMatricula string) Matricula {
 	MatriculaParaAtualizar := Matricula{}
 
 	for MatriculaAlvo.Next() {
-		var id, idAluno, idDisciplina int
+		var idAluno, idDisciplina int
 		var dataMatricula string
 
-		err = MatriculaAlvo.Scan(&id, &idAluno, &idDisciplina, &dataMatricula)
+		err = MatriculaAlvo.Scan(&idAluno, &idDisciplina, &dataMatricula)
 
 		if err != nil {
 			panic(err.Error())
@@ -95,13 +95,13 @@ func EditarMatricula(idMatricula string) Matricula {
 	return MatriculaParaAtualizar
 }
 
-func AtualizarMatricula(id, idAluno, idDisciplina int, dataMatricula string) {
+func AtualizarMatricula(idAluno, idDisciplina int, dataMatricula string, alunoIDAntigo int, disciplinaIDAntigo int) {
 	db := db.ConectaComBancoDeDados()
 
-	AtualizaMatricula, err := db.Prepare("update matricula set idAluno=$2, idDisciplina=$3, data_matricula=$4 where id=$1")
+	AtualizaMatricula, err := db.Prepare("UPDATE matricula SET aluno_id = $1, disciplina_id = $2, data_matricula = $3 WHERE aluno_id = $4 AND disciplina_id = $5")
 	if err != nil {
 		panic(err.Error())
 	}
-	AtualizaMatricula.Exec(id, idAluno, idDisciplina, dataMatricula)
+	AtualizaMatricula.Exec(idAluno, idDisciplina, dataMatricula, alunoIDAntigo, disciplinaIDAntigo)
 	defer db.Close()
 }

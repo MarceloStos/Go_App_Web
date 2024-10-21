@@ -1,0 +1,49 @@
+{{define "MatriculasIndex"}}
+{{template "_head"}}
+{{template "_menu"}}
+
+<body>
+    <div class="container">
+        <section class="card">
+            <div>
+                <table class="table table-striped table-hover mb-0">                
+                    <thead>
+                        <tr>
+                            <th>Id do Aluno</th>
+                            <th>Id da Disciplina</th>
+                            <th>Data da Matricula</th>
+                            <th>Editar</th>
+                            <th>Deletar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{range .}}
+                        <tr>
+                            <td>{{.IdAluno}}</td>
+                            <td>{{.IdDisciplina}}</td>
+                            <td>{{.DataMatricula}}</td>
+                            <td><a href="/matriculas/editar?IdAluno={{.IdAluno}}&IdDisciplina={{.IdDisciplina}}&DataMatricula={{.DataMatricula}}" class="btn btn-info">Editar</a></td>
+                            <td><button onclick="onDelete('{{.IdAluno}}', '{{.IdDisciplina}}', '{{.DataMatricula}}')" class="btn btn-danger">Deletar</button></td>
+                        </tr>
+                        {{end}}
+                    </tbody>                    
+                </table>
+            </div>
+        </section>
+        <div class="card-footer">
+            <a href="/matriculas/adicionar" class="btn btn-primary mb-2">Adicionar Matricula</a>
+            <a href="/alunos" class="btn btn-primary mb-2">Ver Alunos</a>
+            <a href="/matriculas" class="btn btn-primary mb-2">Ver Matriculas</a>
+        </div>
+    </div>
+</body>
+<script>
+    function onDelete(idAluno, idDisciplina, dataMatricula) {
+    let resposta = confirm("Tem certeza que deseja deletar essa matrícula?");
+    if (resposta) {
+        window.location = "/matriculas/deletar?IdAluno=" + idAluno + "&IdDisciplina=" + idDisciplina + "&DataMatricula=" + dataMatricula;
+    }
+}
+</script>
+</html>
+{{end}}

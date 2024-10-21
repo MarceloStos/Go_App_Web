@@ -1,4 +1,4 @@
-{{define "MatriculasIndex"}}
+{{define "AlunosIndex"}}
 {{template "_head"}}
 {{template "_menu"}}
 
@@ -10,19 +10,17 @@
                     <thead>
                         <tr>
                             <th>Id do Aluno</th>
-                            <th>Id da Disciplina</th>
-                            <th>Data da Matricula</th>
-                            <th>Editar</th>
-                            <th>Deletar</th>
+                            <th>Nome do Aluno</th>
+                            <th>Email</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{range .}}
                         <tr>
-                            <td>{{.IdAluno}}</td>
-                            <td>{{.IdDisciplina}}</td>
-                            <td>{{.DataMatricula}}</td>
-                            <td><a href="editar?id={{.Id}}" class="btn btn-info">Editar</a></td>
+                            <td>{{.Id}}</td>
+                            <td>{{.Nome}}</td>
+                            <td>{{.Email}}</td>
+                            <td><a href="/alunos/editar?id={{.Id}}" class="btn btn-info">Editar</a></td>
                             <td><button onclick="onDelete('{{.Id}}')" class="btn btn-danger">Deletar</button></td>
                         </tr>
                         {{end}}
@@ -31,17 +29,17 @@
             </div>
         </section>
         <div class="card-footer">
-            <a href="/adicionar" class="btn btn-primary mb-2">Adicionar Produto</a>
-            <a href="/alunos" class="btn btn-primary mb-2">Ver Alunos</a>
+            <a href="/alunos/adicionar" class="btn btn-primary mb-2">Adicionar Aluno</a>
             <a href="/disciplinas" class="btn btn-primary mb-2">Ver Disciplinas</a>
+            <a href="/matriculas" class="btn btn-primary mb-2">Ver Matriculas</a>
         </div>
     </div>
 </body>
 <script>
     function onDelete(id){
-        let resposta = confirm("Tem certeza que deseja deletar esse produto?")
+        let resposta = confirm("Tem certeza que deseja deletar esse aluno?")
         if (resposta){
-            window.location = "/deletar?id=" * id
+            window.location = "/alunos/deletar?id=" + id
         }
     }
 </script>

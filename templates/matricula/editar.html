@@ -1,0 +1,45 @@
+{{define "EditarMatriculas"}}
+{{template "_head"}}
+{{template "_menu"}}
+<body>
+    <div class="container">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h1 class="display-5">Editar Matricula</h1>
+                    <p class="lead">Insira os dados para atualizar/editar</p>
+                </div>
+            </div>
+            <form method="POST" action="/matriculas/atualizar">
+                <input type="hidden" name="idAlunoAntigo" value="{{.IdAluno}}">
+                <input type="hidden" name="idDisciplinaAntigo" value="{{.IdDisciplina}}">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label for="idAluno">ID do Aluno:</label>
+                            <input type="number" name="idAluno" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label for="idDisciplina">ID da Disciplina:</label>
+                            <input type="number" name="idDisciplina" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label for="dataMatricula">Data da Matrícula:</label>
+                            <input type="date" name="dataMatricula" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" value="salvar" class="btn btn-success">Salvar</button>
+                <a class="btn btn-info" href="/">Voltar</a>
+            </form>
+    </div>
+</body>
+</html>
+{{end}}
