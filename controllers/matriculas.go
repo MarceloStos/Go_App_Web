@@ -2,24 +2,21 @@ package controllers
 
 import (
 	"Aplicacao_Web/models"
-	"html/template"
 	"log"
 	"net/http"
 	"strconv"
 )
 
-var templates = template.Must(template.ParseGlob("templates/*.html"))
-
-func Index(w http.ResponseWriter, r *http.Request) {
-	todosOsAlunos := models.BuscaAluno()
-	templates.ExecuteTemplate(w, "Index", todosOsAlunos)
+func IndexMatriculas(w http.ResponseWriter, r *http.Request) {
+	todasAsMatriculas := models.BuscaMatricula()
+	templates.ExecuteTemplate(w, "MatriculasIndex", todasAsMatriculas)
 }
 
-func Adicionar(w http.ResponseWriter, r *http.Request) {
+func AdicionarMatriculas(w http.ResponseWriter, r *http.Request) {
 	templates.ExecuteTemplate(w, "Adicionar", nil)
 }
 
-func Inserir(w http.ResponseWriter, r *http.Request) {
+func InserirMatriculas(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		nome := r.FormValue("nome")
 		descricao := r.FormValue("descricao")
@@ -43,19 +40,19 @@ func Inserir(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", 301)
 }
 
-func Deletar(w http.ResponseWriter, r *http.Request) {
+func DeletarMatriculas(w http.ResponseWriter, r *http.Request) {
 	idProduto := r.URL.Query().Get("id")
 	models.DeletarProduto(idProduto)
 	http.Redirect(w, r, "/", 301)
 }
 
-func Editar(w http.ResponseWriter, r *http.Request) {
+func EditarMatriculas(w http.ResponseWriter, r *http.Request) {
 	idProduto := r.URL.Query().Get("id")
 	produto := models.EditarProduto(idProduto)
 	templates.ExecuteTemplate(w, "Editar", produto)
 }
 
-func Atualizar(w http.ResponseWriter, r *http.Request) {
+func AtualizarMatriculas(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		id := r.FormValue("id")
 		nome := r.FormValue("nome")
